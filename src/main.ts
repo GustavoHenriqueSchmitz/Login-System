@@ -10,7 +10,7 @@ async function initServer(): Promise<void> {
   const config: Omit<OpenAPIObject, 'paths'> = new DocumentBuilder()
     .setTitle('Login System')
     .setDescription(
-      '## A login API, with routes: Login, RefreshToken and RecoverPassword.',
+      '## Uma API de login, com rotas: Login, RefreshToken e RecoverPassword.',
     )
     .setVersion('1.0')
     .build();
