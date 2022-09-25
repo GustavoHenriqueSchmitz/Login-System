@@ -1,10 +1,13 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { Body, HttpException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from './../prisma/prisma.service';
 import { Payload, User } from './dto/auth.dto';
 import * as bcrypt from 'bcrypt';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ResponseDto } from 'src/app.dto';
+import { RecoverPassword, ResetPassword } from './dto/password.dto';
+import { IsEmail } from 'class-validator';
+import { users } from '@prisma/client';
 
 // Authentication services
 @Injectable()
@@ -153,16 +156,34 @@ export class AuthService {
     return { id: user.id, email: user.email, role: user.role };
   }
 
-  async recoverPassword(email: string): Promise<ResponseDto> {
+  async recoverPassword(email: string): Promise<ResponseDto | HttpException> {
     const token = Math.random().toString(20).substring(2, 22);
 
-    await this.prisma.recoverPassword.create({
-      data: {
-        email: email,
-        token: token,
-      },
-    });
-
+    try {
+      await this.prisma.recoverPassword.create({
+        data: {
+          email: email,
+          token: token,
+        },
+      });
+    } catch (err) {
+      // Try to update
+      try {
+        await this.prisma.recoverPassword.update({
+          where: {
+            email: email,
+          },
+          data: {
+            token: token,
+          },
+        });
+      } catch (err) {
+        return new HttpException(
+          { msg: 'internal server error', err: true },
+          500,
+        );
+      }
+    }
     const url = `htpp://localhost:3000/reset/${token}`;
 
     await this.mailerService.sendMail({
@@ -172,5 +193,48 @@ export class AuthService {
     });
 
     return { msg: 'Please check your email!', err: false };
+  }
+
+  async resetPassword(
+    token: string,
+    password: string,
+    passwordConfirm: string,
+  ): Promise<HttpException | ResponseDto> {
+    if (password !== passwordConfirm) {
+      return new HttpException(
+        { msg: 'Password do not match', err: true },
+        400,
+      );
+    }
+
+    const passwordReset: RecoverPassword =
+      await this.prisma.recoverPassword.findUnique({
+        where: {
+          token: token,
+        },
+      });
+
+    const user: users = await this.prisma.users.findUnique({
+      where: {
+        email: passwordReset.email,
+      },
+    });
+
+    if (!user) {
+      return new HttpException({ msg: 'user not found', err: true }, 404);
+    }
+
+    const hashedPassword: string = await bcrypt.hash(password, 10);
+
+    await this.prisma.users.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    return { msg: 'Password reseted', err: false };
   }
 }
