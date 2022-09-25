@@ -39,11 +39,11 @@ export class AuthController {
 
   @Post('/recover')
   async recoverPassword(@Body() body: RecoverPassword) {
-    return await this.authService.passwordRecover(body.email);
+    return await this.authService.recoverPassword(body.email);
   }
 
   @Post('/reset')
   async resetPassword(@Body() body: ResetPassword) {
-
+    return null;
   }
 }
