@@ -1,5 +1,3 @@
-import { IsEmail } from 'class-validator';
-
 export class Payload {
   id: number;
   email: string;
@@ -14,7 +12,6 @@ export class User {
   role: number;
 }
 
-export class RecoverPassword {
-  @IsEmail()
-  email: string;
+export class RefreshToken {
+  oldToken: string;
 }

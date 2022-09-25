@@ -1,30 +1,19 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from './../prisma/prisma.service';
-import { Payload, RecoverPassword, User } from './dto/auth.dto';
+import { Payload, User } from './dto/auth.dto';
 import * as bcrypt from 'bcrypt';
-import { ConfigService } from '@nestjs/config';
-import { IMailGunData } from './dto/email.dto';
-import * as Mailgun from 'mailgun-js';
+import { MailerService } from '@nestjs-modules/mailer';
+import { ResponseDto } from 'src/app.dto';
 
 // Authentication services
 @Injectable()
 export class AuthService {
-  private readonly clientAppUrl: string;
-  private mg: Mailgun.Mailgun;
-
   constructor(
     private readonly jwtService: JwtService,
-    private readonly configService: ConfigService,
     private readonly prisma: PrismaService,
-  ) {
-    this.clientAppUrl = this.configService.get<string>('FE_APP_URL');
-
-    this.mg = Mailgun({
-      apiKey: this.configService.get<string>('MAILGUN_API_KEY'),
-      domain: this.configService.get<string>('MAILGUN_API_DOMAIN'),
-    });
-  }
+    private mailerService: MailerService,
+  ) {}
 
   // Function login, generate a token
   async login(
@@ -43,8 +32,8 @@ export class AuthService {
 
     if (error) {
       return new HttpException(
-        { msg: 'email and/or password invalid', err: true },
-        401,
+        { msg: 'failed to perform the login', err: true },
+        500,
       );
     }
 
@@ -164,43 +153,24 @@ export class AuthService {
     return { id: user.id, email: user.email, role: user.role };
   }
 
-  async passwordRecover(bodyData: RecoverPassword): Promise<HttpException> {
-    let user: User;
+  async recoverPassword(email: string): Promise<ResponseDto> {
+    const token = Math.random().toString(20).substring(2, 22);
 
-    try {
-      user = await this.prisma.users.findUnique({
-        where: {
-          email: bodyData.email,
-        },
-      });
-    } catch (err) {
-      return new HttpException({ msg: 'invalid email', err: true }, 400);
-    }
-
-    const token: { access_token: string } | HttpException = await this.login(
-      user,
-    );
-    const forgotLink = `${this.clientAppUrl}/auth/fo?token=${token}`;
-
-    await this.send({
-      from: this.configService.get<string>('JS_CODE_MAIL'),
-      to: user.email,
-      subject: 'Forgot Password',
-      html: `
-                <h3>Hello ${user.name}!</h3>
-                <p>Please use this <a href="${forgotLink}">link</a> to reset your password.</p>
-            `,
+    await this.prisma.recoverPassword.create({
+      data: {
+        email: email,
+        token: token,
+      },
     });
-  }
 
-  send(data: IMailGunData): Promise<Mailgun.messages.SendResponse> {
-    return new Promise((res, rej) => {
-      this.mg.messages().send(data, function (error, body) {
-        if (error) {
-          rej(error);
-        }
-        res(body);
-      });
+    const url = `htpp://localhost:3000/reset/${token}`;
+
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Reset your password!',
+      html: `Click <a href="${url}}">here</a> to reset your password!`,
     });
+
+    return { msg: 'Please check your email!', err: false };
   }
 }

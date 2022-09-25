@@ -11,8 +11,8 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ResponseDto } from 'src/app.dto';
 import { AuthService } from './auth.service';
-import { RecoverPassword } from './dto/auth.dto';
-import { RefreshToken } from './dto/refresh.dto';
+import { RecoverPassword, ResetPassword } from './dto/password.dto';
+import { RefreshToken } from './dto/auth.dto';
 
 // Authentication controller
 @Controller('/api/auth')
@@ -37,11 +37,13 @@ export class AuthController {
     return await this.authService.refreshToken(bodyData.oldToken);
   }
 
-  // Function passwordRecover, recover password controller and route.
   @Post('/recover')
-  async passwordRecover(
-    @Body() bodyData: RecoverPassword,
-  ): Promise<HttpException> {
-    return await this.authService.passwordRecover(bodyData);
+  async recoverPassword(@Body() body: RecoverPassword) {
+    return await this.authService.passwordRecover(body.email);
+  }
+
+  @Post('/reset')
+  async resetPassword(@Body() body: ResetPassword) {
+
   }
 }

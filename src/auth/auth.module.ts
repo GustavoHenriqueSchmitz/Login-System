@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
@@ -7,10 +6,19 @@ import { AuthController } from './auth.controller';
 import { LocalStrategy } from './strategies/local_strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { PrismaModule } from './../prisma/prisma.module';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    MailerModule.forRoot({
+      transport: {
+        host: '0.0.0.0',
+        port: 1025,
+      },
+      defaults: {
+        from: 'loginsystem@system.com',
+      },
+    }),
     PassportModule,
     PrismaModule,
     JwtModule.register({
