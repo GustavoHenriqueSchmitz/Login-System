@@ -72,6 +72,11 @@ npm install
 npx prisma generate
 ```
 
+**3.** Deploy migrations and create the database
+```
+npx prisma migrate deploy
+```
+
 ## Executando a aplicação
 
 **1.** Abra um terminal, e na pasta raiz do projeto, execute: 
