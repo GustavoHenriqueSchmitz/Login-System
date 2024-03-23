@@ -1,6 +1,6 @@
 # Login System
 
-Aplicação desenvolvida usando: [NodeJS](https://nodejs.org), [NestJS](https://github.com/nestjs/nest), [Prisma](https://www.prisma.io).
+Aplicação desenvolvida usando: [NodeJS](https://nodejs.org), [TypeScript](https://www.typescriptlang.org), [NestJS](https://github.com/nestjs/nest), [Prisma](https://www.prisma.io).
 
 ## Clone do projeto
 
@@ -9,7 +9,7 @@ git clone https://github.com/GustavoHenriqueSchmitz/LoginSystem.git
 ```
 ## Instalação
 
-### 1 - Instale NodeJS V16.17.0
+### 1 - Instale NodeJS V20.11.1
 
 **1.** Primeiro verifique se você já tem o node instalado executando os seguintes comandos:
 
@@ -20,8 +20,8 @@ npm -v
 
 Se o resultado for algo como:
 ```
-v16.17.0
-8.15.0
+v20.11.1
+v10.2.4
 ```
 
 Você pode pular esta etapa de instalação.
@@ -34,12 +34,12 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
 **3.**
 ```
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 ```
 
 **4.** Feche o terminal atual e abra um novo, e prossiga executando o comando seguinte:
 ```
-nvm install v16.17.0
+nvm install v20.11.1
 ```
 ### 2 - Instale docker-compose:
 
