@@ -184,12 +184,11 @@ export class AuthService {
         );
       }
     }
-    const url = `htpp://localhost:3000/reset/${token}`;
-
+    const url = `http://localhost:5000/reset/${token}`;
     await this.mailerService.sendMail({
       to: email,
       subject: 'Reset your password!',
-      html: `Click <a href="${url}}">here</a> to reset your password!`,
+      html: `Click <a href="${url}">here</a> to reset your password!`,
     });
 
     return { msg: 'Please check your email!', err: false };
@@ -232,6 +231,12 @@ export class AuthService {
       },
       data: {
         password: hashedPassword,
+      },
+    });
+
+    await this.prisma.recoverPassword.delete({
+      where: {
+        token: token,
       },
     });
 

@@ -19,6 +19,16 @@ async function initServer(): Promise<void> {
   const document: OpenAPIObject = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/swagger', app, document);
 
+  // Enable CORS
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true, // If your API uses cookies or sessions
+    allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',
+  });
+
   // Init server
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(5000);

@@ -10,20 +10,27 @@ import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
-    MailerModule.forRoot({
-      transport: {
-        host: '0.0.0.0',
-        port: 1025,
-      },
-      defaults: {
-        from: 'loginsystem@system.com',
-      },
-    }),
     PassportModule,
     PrismaModule,
     JwtModule.register({
       privateKey: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1500s' },
+    }),
+    MailerModule.forRootAsync({
+      useFactory: () => ({
+        transport: {
+          host: 'smtp.gmail.com',
+          port: 587,
+          secure: false,
+          auth: {
+            user: 'redyrevol2006@gmail.com',
+            pass: 'ksek uocz vzjl pjtz ',
+          },
+        },
+        defaults: {
+          from: 'redyrevol2006@gmail.com',
+        },
+      }),
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],

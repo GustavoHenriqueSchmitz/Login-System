@@ -1,3 +1,5 @@
+import { IsString } from 'class-validator';
+
 export class Payload {
   id: number;
   email: string;
@@ -13,5 +15,6 @@ export class User {
 }
 
 export class RefreshToken {
+  @IsString()
   oldToken: string;
 }

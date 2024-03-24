@@ -3,6 +3,7 @@ import {
   Controller,
   HttpCode,
   HttpException,
+  Param,
   Post,
   Put,
   Req,
@@ -37,15 +38,18 @@ export class AuthController {
     return await this.authService.refreshToken(bodyData.oldToken);
   }
 
-  @Post('/recover')
+  @Post('/recover/')
   async recoverPassword(@Body() body: RecoverPassword) {
     return await this.authService.recoverPassword(body.email);
   }
 
-  @Post('/reset')
-  async resetPassword(@Body() body: ResetPassword) {
+  @Post('/reset/:token')
+  async resetPassword(
+    @Param('token') token: string,
+    @Body() body: ResetPassword,
+  ) {
     return this.authService.resetPassword(
-      body.token,
+      token,
       body.password,
       body.passwordConfirm,
     );
