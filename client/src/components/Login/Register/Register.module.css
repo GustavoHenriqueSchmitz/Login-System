@@ -1,4 +1,4 @@
-.Login {
+.Register {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -6,13 +6,13 @@
     width: 100%;
 }
 
-.Login_container {
+.Register_container {
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(0, 0, 0);
     border-radius: 0.3vmax;
 }
 
-.Login_containerTitle {
+.Register_containerTitle {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,27 +20,27 @@
     padding: 0.5vmax 1vmax 0.5vmax 1vmax;
 }
 
-.Login_containerTitle h1 {
+.Register_containerTitle h1 {
     font-size: clamp(17px, 1.15vmax, 1.15vmax);
     color: rgb(255, 255, 255);
 }
 
-.Login_containerForm {
+.Register_containerForm {
     padding: 0.5vmax 1vmax;
 }
 
-.Login_containerFormAlignInputs {
+.Register_containerFormAlignInputs {
     display: flex;
     flex-direction: column;
     padding: 0.5vmax 0vmax;
 }
 
-.Login_containerFormLabel {
+.Register_containerFormLabel {
     padding-bottom: 0.2vmax;
     font-size: clamp(14px, 0.85vmax, 0.85vmax);
 }
 
-.Login_containerFormInput {
+.Register_containerFormInput {
     padding: 0.35vmax 0.25vmax;
     border-radius: 0.2vmax;
     border: 1px solid rgb(150, 150, 150);
@@ -49,26 +49,26 @@
     width: 15vmax;
 }
 
-.Login_containerFormInput:hover {
+.Register_containerFormInput:hover {
     background-color: rgb(220, 220, 220);
 }
 
-.Login_containerFormInput:focus {
+.Register_containerFormInput:focus {
     border: 0.1vmax solid black;
 }
 
-.Login_containerFormButton {
+.Register_containerFormButton {
     font-size: clamp(14px, 0.85vmax, 0.85vmax);
     padding: 0.2vmax 0.1vmax;
 }
 
-.Login_containerRecover {
+.Register_containerRecover {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0.3vmax 0 1vmax 0;
 }
 
-.Login_containerRecover p {
+.Register_containerRecover p {
     cursor: pointer;
 }
