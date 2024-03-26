@@ -13,7 +13,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
     PassportModule,
     PrismaModule,
     JwtModule.register({
-      privateKey: process.env.JWT_SECRET,
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1500s' },
     }),
     MailerModule.forRootAsync({

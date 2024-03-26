@@ -1,12 +1,11 @@
-import { Body, HttpException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from './../prisma/prisma.service';
 import { Payload, User } from './dto/auth.dto';
 import * as bcrypt from 'bcrypt';
 import { MailerService } from '@nestjs-modules/mailer';
-import { ResponseDto } from 'src/app.dto';
-import { RecoverPassword, ResetPassword } from './dto/password.dto';
-import { IsEmail } from 'class-validator';
+import { ServiceResults } from 'src/app.dto';
+import { RecoverPassword } from './dto/password.dto';
 import { users } from '@prisma/client';
 
 // Authentication services
@@ -19,30 +18,20 @@ export class AuthService {
   ) {}
 
   // Function login, generate a token
-  async login(
-    user: Payload,
-  ): Promise<{ access_token: string } | HttpException> {
-    // Define the payload of the token
-    const payload: Payload = {
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    };
-
+  async login(payload: Payload): Promise<ServiceResults> {
     // Generate and save the token
     const token: string = this.jwtService.sign(payload);
     const error: string = await this.saveToken(token, payload.email);
 
     if (error) {
-      return new HttpException(
-        { msg: 'failed to perform the login', err: true },
-        500,
-      );
+      return {
+        data: null,
+        message: 'Error while trying to generate token',
+        statusCode: 404,
+      };
     }
 
-    return {
-      access_token: token,
-    };
+    return { data: token, message: 'Token Generated.', statusCode: 200 };
   }
 
   // Function saveToken, save the new created token in the database
@@ -75,14 +64,7 @@ export class AuthService {
   }
 
   // Function refreshToken, refresh a token
-  async refreshToken(oldToken: string): Promise<
-    | HttpException
-    | {
-        data: { access_token: string } | HttpException;
-        msg: string;
-        err: boolean;
-      }
-  > {
+  async refreshToken(oldToken: string): Promise<ServiceResults> {
     // Check if the token exists
     const token = await this.prisma.token.findFirst({
       where: {
@@ -106,21 +88,33 @@ export class AuthService {
           },
         });
       } catch (err) {
-        return new HttpException({ msg: 'invalid token', err: true }, 401);
+        return { data: null, message: 'invalid token', statusCode: 401 };
       }
 
+      const loginResults = await this.login(user);
+
       // Create a new token
-      return { data: await this.login(user), msg: null, err: false };
+      return {
+        data: loginResults.data,
+        message: loginResults.message,
+        statusCode: loginResults.statusCode,
+      };
     } else {
-      return new HttpException({ msg: 'invalid token', err: true }, 401);
+      return { data: null, message: 'invalid token', statusCode: 401 };
+    }
+  }
+
+  async validateToken(token: string): Promise<ServiceResults> {
+    try {
+      this.jwtService.verify(token);
+      return { data: null, message: 'Valid Token.', statusCode: 200 };
+    } catch {
+      return { data: null, message: 'Invalid Token', statusCode: 401 };
     }
   }
 
   // Function validateUser, validate the user.
-  async validateUser(
-    email: string,
-    password: string,
-  ): Promise<Payload | HttpException> {
+  async validateUser(email: string, password: string): Promise<ServiceResults> {
     let user: User;
 
     // Catch user by email
@@ -131,32 +125,39 @@ export class AuthService {
         },
       });
     } catch (err) {
-      return new HttpException(
-        { msg: 'email and/or password invalid', err: true },
-        401,
-      );
+      return {
+        data: null,
+        message: 'Error while trying to validate informations',
+        statusCode: 401,
+      };
     }
 
     // Validate the password
     try {
       if ((await bcrypt.compare(password, user.password)) === false) {
-        return new HttpException(
-          { msg: 'email and/or password invalid', err: true },
-          401,
-        );
+        return {
+          data: null,
+          message: 'email and/or password invalid',
+          statusCode: 401,
+        };
       }
     } catch (err) {
-      return new HttpException(
-        { msg: 'email and/or password invalid', err: true },
-        401,
-      );
+      return {
+        data: null,
+        message: 'email and/or password invalid',
+        statusCode: 401,
+      };
     }
 
     // Return the user payload, for the token, if validate is successfully
-    return { id: user.id, email: user.email, role: user.role };
+    return {
+      data: { id: user.id, email: user.email, role: user.role },
+      message: 'User is is valid.',
+      statusCode: 200,
+    };
   }
 
-  async recoverPassword(email: string): Promise<ResponseDto | HttpException> {
+  async recoverPassword(email: string): Promise<ServiceResults> {
     const token = Math.random().toString(20).substring(2, 22);
 
     try {
@@ -178,32 +179,30 @@ export class AuthService {
           },
         });
       } catch (err) {
-        return new HttpException(
-          { msg: 'internal server error', err: true },
-          500,
-        );
+        return {
+          data: null,
+          message: 'internal server error',
+          statusCode: 500,
+        };
       }
     }
     const url = `http://localhost:5000/reset/${token}`;
     await this.mailerService.sendMail({
       to: email,
-      subject: 'Reset your password!',
-      html: `Click <a href="${url}">here</a> to reset your password!`,
+      subject: 'Resete sua senha!',
+      html: `<a href="${url}">Clique aqui</a> para resetar sua senha.`,
     });
 
-    return { msg: 'Please check your email!', err: false };
+    return { data: null, message: 'Please check your email!', statusCode: 200 };
   }
 
   async resetPassword(
     token: string,
     password: string,
     passwordConfirm: string,
-  ): Promise<HttpException | ResponseDto> {
+  ): Promise<ServiceResults> {
     if (password !== passwordConfirm) {
-      return new HttpException(
-        { msg: 'Password do not match', err: true },
-        400,
-      );
+      return { data: null, message: 'Password do not match', statusCode: 400 };
     }
 
     const passwordReset: RecoverPassword =
@@ -220,7 +219,7 @@ export class AuthService {
     });
 
     if (!user) {
-      return new HttpException({ msg: 'user not found', err: true }, 404);
+      return { data: null, message: 'user not found', statusCode: 404 };
     }
 
     const hashedPassword: string = await bcrypt.hash(password, 10);
@@ -240,6 +239,6 @@ export class AuthService {
       },
     });
 
-    return { msg: 'Password reseted', err: false };
+    return { data: null, message: 'Password reseted', statusCode: 200 };
   }
 }

@@ -25,7 +25,7 @@ async function initServer(): Promise<void> {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,
-    credentials: true, // If your API uses cookies or sessions
+    credentials: true,
     allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',
   });
 

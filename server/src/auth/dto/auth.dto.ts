@@ -14,7 +14,11 @@ export class User {
   role: number;
 }
 
-export class RefreshToken {
+export class Login {
+  accessToken: string;
+}
+
+export class Token {
   @IsString()
-  oldToken: string;
+  token: string;
 }

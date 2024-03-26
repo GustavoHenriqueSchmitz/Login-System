@@ -2,56 +2,152 @@ import {
   Body,
   Controller,
   HttpCode,
-  HttpException,
   Param,
   Post,
   Put,
   Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ResponseDto } from 'src/app.dto';
+import { ServiceResults, AppResponse } from 'src/app.dto';
 import { AuthService } from './auth.service';
 import { RecoverPassword, ResetPassword } from './dto/password.dto';
-import { RefreshToken } from './dto/auth.dto';
+import { Token } from './dto/auth.dto';
+import { Request, Response } from 'express';
 
 // Authentication controller
 @Controller('/api/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  //Function login, auth controller and route
+  // Function login, auth controller and route
   @UseGuards(AuthGuard('local'))
   @HttpCode(200)
   @Post('/login')
   async login(
-    @Req() req: any,
-  ): Promise<{ access_token: string } | HttpException> {
-    return await this.authService.login(req.user);
+    @Req() req: Request & { user: ServiceResults },
+    @Res() res: Response,
+  ): Promise<Response<AppResponse>> {
+    if (req.user.statusCode !== 200) {
+      return res.status(req.user.statusCode).json({
+        data: req.user.data,
+        message: req.user.message,
+        error: true,
+      });
+    }
+
+    const results: ServiceResults = await this.authService.login(req.user.data);
+
+    if (results.statusCode !== 200) {
+      return res.status(results.statusCode).json({
+        data: req.user.data,
+        message: results.message,
+        error: true,
+      });
+    }
+
+    return res.json({
+      data: results.data,
+      message: results.message,
+      error: false,
+    });
   }
 
   // Function login, refresh controller and route
   @Put('/refresh')
+  @HttpCode(200)
   async refreshToken(
-    @Body() bodyData: RefreshToken,
-  ): Promise<HttpException | ResponseDto> {
-    return await this.authService.refreshToken(bodyData.oldToken);
+    @Body() bodyData: Token,
+    @Res() res: Response,
+  ): Promise<Response<AppResponse>> {
+    const results = await this.authService.refreshToken(bodyData.token);
+
+    if (results.statusCode !== 200) {
+      return res.status(results.statusCode).json({
+        data: results.data,
+        message: results.message,
+        error: true,
+      });
+    }
+
+    return res.json({
+      data: results.data,
+      message: results.message,
+      error: false,
+    });
+  }
+
+  @Post('/validateToken')
+  @HttpCode(200)
+  async validateToken(
+    @Body() bodyData: Token,
+    @Res() res: Response,
+  ): Promise<Response<AppResponse>> {
+    const results = await this.authService.validateToken(bodyData.token);
+
+    if (results.statusCode !== 200) {
+      return res.status(results.statusCode).json({
+        data: results.data,
+        message: results.message,
+        error: true,
+      });
+    }
+
+    return res.json({
+      data: results.data,
+      message: results.message,
+      error: false,
+    });
   }
 
   @Post('/recover/')
-  async recoverPassword(@Body() body: RecoverPassword) {
-    return await this.authService.recoverPassword(body.email);
+  async recoverPassword(
+    @Body() body: RecoverPassword,
+    @Res() res: Response,
+  ): Promise<Response<AppResponse>> {
+    const results = await this.authService.recoverPassword(body.email);
+
+    if (results.statusCode !== 200) {
+      return res.status(results.statusCode).json({
+        data: results.data,
+        message: results.message,
+        error: true,
+      });
+    }
+
+    return res.json({
+      data: results.data,
+      message: results.message,
+      error: false,
+    });
   }
 
   @Post('/reset/:token')
+  @HttpCode(200)
   async resetPassword(
     @Param('token') token: string,
     @Body() body: ResetPassword,
-  ) {
-    return this.authService.resetPassword(
+    @Res() res: Response,
+  ): Promise<Response<AppResponse>> {
+    const results = await this.authService.resetPassword(
       token,
       body.password,
       body.passwordConfirm,
     );
+
+    if (results.statusCode !== 200) {
+      return res.status(results.statusCode).json({
+        data: results.data,
+        message: results.message,
+        error: true,
+      });
+    }
+
+    res.json({
+      data: results.data,
+      message: results.message,
+      error: false,
+    });
   }
 }
