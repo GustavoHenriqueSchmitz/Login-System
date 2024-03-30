@@ -19,7 +19,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body className={`Body ${inter.className}`}>{children}</body>
+      <body className={`Body ${inter.className}`}>
+        <video className={"VideoBackground"} autoPlay loop muted>
+          <source src={"/videos/background.mp4"} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div className={"ChildrenContent"}>
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

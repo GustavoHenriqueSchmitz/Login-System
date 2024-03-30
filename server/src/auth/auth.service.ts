@@ -84,7 +84,7 @@ export class AuthService {
           select: {
             id: true,
             email: true,
-            role: true,
+            name: true,
           },
         });
       } catch (err) {
@@ -151,7 +151,7 @@ export class AuthService {
 
     // Return the user payload, for the token, if validate is successfully
     return {
-      data: { id: user.id, email: user.email, role: user.role },
+      data: { id: user.id, email: user.email },
       message: 'User is is valid.',
       statusCode: 200,
     };

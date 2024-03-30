@@ -1,7 +1,7 @@
 import { Controller, Post, Body, HttpCode, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { UserService } from './user.service';
-import { CreateUserEnt } from './entities/user.entity';
+import { CreateUser } from './entities/user.entity';
 import { AppResponse } from 'src/app.dto';
 
 @Controller('/api/user')
@@ -11,10 +11,10 @@ export class UserController {
   @Post('/register')
   @HttpCode(201)
   async createUser(
-    @Body() createUserEnt: CreateUserEnt,
+    @Body() createUser: CreateUser,
     @Res() res: Response,
   ): Promise<Response<AppResponse>> {
-    const results = await this.userService.createUser(createUserEnt);
+    const results = await this.userService.createUser(createUser);
 
     if (results.statusCode !== 200) {
       return res.status(results.statusCode).json({

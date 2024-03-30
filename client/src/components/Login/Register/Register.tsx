@@ -29,7 +29,9 @@ function Register(props: any) {
                     toast.error("Houve um erro ao tentar registrar usuário")
                 } else {
                     toast.success("Usuário criado!")
-                    router.push('/login');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500)
                 }
             }} className={CSS.Register_containerForm}>
                 <div className={CSS.Register_containerFormAlignInputs}>

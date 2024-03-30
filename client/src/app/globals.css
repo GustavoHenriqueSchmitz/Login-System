@@ -7,3 +7,18 @@
   height: 100vh;
   width: 100vw;
 }
+
+.ChildrenContent {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.VideoBackground {
+  position: absolute;
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}

@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import { toast } from "react-toastify";
-import { useRouter } from 'next/navigation';
 import api from "@/service/api";
 import CSS from './Login.module.css';
+import Link from 'next/link';
+import useAuth from '@/service/auth';
 
 function Login(props: any) {
     const [loginData, setLoginData] = useState({
         email: "",
         password: ""
     });
-    const router = useRouter();
+    const { login } = useAuth();
 
     return (
         <>
-            <div className={CSS.Login_containerTitle}>
-                <h1>Sistema de Login</h1>
+            <div className={CSS.Login_containerHeader}>
+                <h1 className={CSS.Login_containerTitle}>Login</h1>
             </div>
             <form onSubmit={async (e) => {
                 e.preventDefault()
@@ -28,8 +29,7 @@ function Login(props: any) {
                 } else if (results.status !== 200) {
                     toast.error("Houve um erro ao fazer login, tente novamente")
                 } else {
-                    localStorage.setItem('token', results.data.data);
-                    router.push('/home');
+                    login(results.data.data)
                 }
             }} className={CSS.Login_containerForm}>
                 <div className={CSS.Login_containerFormAlignInputs}>
@@ -72,6 +72,7 @@ function Login(props: any) {
                 </div>
                 <div className={CSS.Login_containerRecover}>
                     <p onClick={() => props.setPage("register")}>Não têm uma conta?</p>
+                    <Link href={"/"}>Voltar</Link>
                 </div>
             </form>
         </>

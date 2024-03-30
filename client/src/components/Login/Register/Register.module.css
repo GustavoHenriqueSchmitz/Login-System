@@ -60,6 +60,7 @@
 .Register_containerFormButton {
     font-size: clamp(14px, 0.85vmax, 0.85vmax);
     padding: 0.2vmax 0.1vmax;
+    cursor: pointer;
 }
 
 .Register_containerRecover {
@@ -71,4 +72,12 @@
 
 .Register_containerRecover p {
     cursor: pointer;
+    transform: scaleX(1);
+    border-bottom: 0 solid transparent;
+    transition: 0.3s;
+}
+
+.Register_containerRecover p:hover {
+    color: rgb(80, 80, 80);
+    border-bottom: 0.1vmax solid rgb(80, 80, 80);
 }

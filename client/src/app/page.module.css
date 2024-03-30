@@ -1,4 +1,27 @@
 .Home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   width: 100%;
+}
+
+.Home_Content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1vmax;
+  border-radius: 0.3vmax;
+  gap: 0.5vmax;
+}
+
+.Home_Content a {
+  color: rgb(0, 0, 0);
+  transition: 0.3s;
+}
+
+.Home_Content a:hover {
+  color: rgb(80, 80, 80);
 }

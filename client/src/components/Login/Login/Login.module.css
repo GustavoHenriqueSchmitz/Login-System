@@ -1,4 +1,4 @@
-.Login_containerTitle {
+.Login_containerHeader {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,7 +6,7 @@
     padding: 0.5vmax 1vmax 0.5vmax 1vmax;
 }
 
-.Login_containerTitle h1 {
+.Login_containerTitle {
     font-size: clamp(17px, 1.15vmax, 1.15vmax);
     color: rgb(255, 255, 255);
 }
@@ -28,7 +28,15 @@
 
 .Login_containerFormAlignInputs p {
     padding: 0.4vmax 0 0 0;
+    width: fit-content;
     cursor: pointer;
+    border-bottom: 0 solid transparent;
+    transition: 0.3s;
+}
+
+.Login_containerFormAlignInputs p:hover {
+    color: rgb(80, 80, 80);
+    border-bottom: 0.1vmax solid rgb(80, 80, 80);
 }
 
 .Login_containerFormInput {
@@ -51,15 +59,40 @@
 .Login_containerFormButton {
     font-size: clamp(14px, 0.85vmax, 0.85vmax);
     padding: 0.2vmax 0.1vmax;
+    cursor: pointer;
 }
 
 .Login_containerRecover {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    gap: 0.5vmax 0;
     padding: 0.3vmax 0 1vmax 0;
 }
 
 .Login_containerRecover p {
     cursor: pointer;
+    transform: scaleX(1);
+    border-bottom: 0 solid transparent;
+    transition: 0.3s;
+}
+
+.Login_containerRecover p:hover {
+    color: rgb(80, 80, 80);
+    border-bottom: 0.1vmax solid rgb(80, 80, 80);
+}
+
+.Login_containerRecover a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    cursor: pointer;
+    transform: scaleX(1);
+    border-bottom: 0 solid transparent;
+    transition: 0.3s;
+}
+
+.Login_containerRecover a:hover {
+    color: rgb(80, 80, 80);
+    border-bottom: 0.1vmax solid rgb(80, 80, 80);
 }
