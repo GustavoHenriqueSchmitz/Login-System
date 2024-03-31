@@ -1,0 +1,54 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.Body {
+  height: 100vh;
+  width: 100vw;
+}
+
+.ChildrenContent {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.VideoBackground {
+  position: absolute;
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.Error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.Error_content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1vmax;
+  border-radius: 0.3vmax;
+  gap: 0.5vmax;
+}
+
+.Error_content h2 {
+  font-size: clamp(17px, 1.15vmax, 1.15vmax);
+  color: rgb(0, 0, 0);
+}
+
+.Error_content button {
+  font-size: clamp(14px, 0.85vmax, 0.85vmax);
+  padding: 0.2vmax 0.1vmax;
+  cursor: pointer;
+}
