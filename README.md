@@ -1,6 +1,6 @@
 # Login System
 
-Aplicação desenvolvida usando: [NodeJS](https://nodejs.org), [TypeScript](https://www.typescriptlang.org), [NestJS](https://github.com/nestjs/nest), [Prisma](https://www.prisma.io).
+Aplicação desenvolvida usando: [NodeJS](https://nodejs.org), [TypeScript](https://www.typescriptlang.org), [NestJS](https://github.com/nestjs/nest), [Prisma](https://www.prisma.io), [NextJS](https://nextjs.org/).
 
 ## Clone do projeto
 
