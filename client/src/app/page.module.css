@@ -17,9 +17,18 @@
   gap: 0.5vmax;
 }
 
+.Home_Content h1 {
+  font-size: clamp(20px, 1.35vmax, 1.35vmax);
+}
+
+.Home_Content p {
+  font-size: clamp(14px, 0.85vmax, 0.85vmax);
+}
+
 .Home_Content a {
   color: rgb(0, 0, 0);
   transition: 0.3s;
+  font-size: clamp(14px, 0.85vmax, 0.85vmax);
 }
 
 .Home_Content a:hover {

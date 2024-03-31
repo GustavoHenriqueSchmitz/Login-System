@@ -17,8 +17,17 @@
     gap: 0.5vmax;
 }
 
+.Logged_Content h1 {
+    font-size: clamp(20px, 1.35vmax, 1.35vmax);
+}
+
+.Logged_Content p {
+    font-size: clamp(14px, 0.85vmax, 0.85vmax);
+}
+
 .Logged_Content a {
     color: rgb(0, 0, 0);
+    font-size: clamp(14px, 0.85vmax, 0.85vmax);
     transition: 0.3s;
 }
 

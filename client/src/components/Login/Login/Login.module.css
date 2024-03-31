@@ -28,6 +28,7 @@
 
 .Login_containerFormAlignInputs p {
     padding: 0.4vmax 0 0 0;
+    font-size: clamp(14px, 0.85vmax, 0.85vmax);
     width: fit-content;
     cursor: pointer;
     border-bottom: 0 solid transparent;
@@ -75,6 +76,7 @@
     cursor: pointer;
     transform: scaleX(1);
     border-bottom: 0 solid transparent;
+    font-size: clamp(14px, 0.85vmax, 0.85vmax);
     transition: 0.3s;
 }
 
@@ -89,6 +91,7 @@
     cursor: pointer;
     transform: scaleX(1);
     border-bottom: 0 solid transparent;
+    font-size: clamp(14px, 0.85vmax, 0.85vmax);
     transition: 0.3s;
 }
 

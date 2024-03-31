@@ -10,9 +10,9 @@ async function initServer(): Promise<void> {
   const config: Omit<OpenAPIObject, 'paths'> = new DocumentBuilder()
     .setTitle('Login System')
     .setDescription(
-      '## Uma API de login, com rotas: Login, RefreshToken e RecoverPassword.',
+      '## Uma API de login, com funcionalidades: Login, RefreshToken, RecoverPassword, Logout e validações.',
     )
-    .setVersion('1.0')
+    .setVersion('2.0')
     .build();
 
   // Init swagger
