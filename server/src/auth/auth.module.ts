@@ -25,12 +25,12 @@ dotenv.config();
           port: 587,
           secure: false,
           auth: {
-            user: 'redyrevol2006@gmail.com', // Put here and email, to allow the application send email. Recommend a gmail email.
-            pass: 'awel valr mfmf zkrr ', // Access your gmail account, and generate an app password to put here.
+            user: '', // Put here and email, to allow the application send email. Recommend a gmail email.
+            pass: '', // Access your gmail account, and generate an app password to put here.
           },
         },
         defaults: {
-          from: 'redyrevol2006@gmail.com', // Put here and email, to allow the application send email. Recommend a gmail email.
+          from: '', // Put here and email, to allow the application send email. Recommend a gmail email.
         },
       }),
     }),
