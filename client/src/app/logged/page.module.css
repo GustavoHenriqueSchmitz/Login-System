@@ -1,0 +1,27 @@
+.Logged {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.Logged_Content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 1vmax;
+    border-radius: 0.3vmax;
+    gap: 0.5vmax;
+}
+
+.Logged_Content a {
+    color: rgb(0, 0, 0);
+    transition: 0.3s;
+}
+
+.Logged_Content a:hover {
+    color: rgb(80, 80, 80);
+}

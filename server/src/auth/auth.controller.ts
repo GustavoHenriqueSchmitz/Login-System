@@ -2,7 +2,7 @@ import {
   Body,
   Controller,
   HttpCode,
-  Param,
+  Headers,
   Post,
   Put,
   Req,
@@ -101,7 +101,8 @@ export class AuthController {
     });
   }
 
-  @Post('/recover/')
+  @Post('/recover')
+  @HttpCode(200)
   async recoverPassword(
     @Body() body: RecoverPassword,
     @Res() res: Response,
@@ -117,24 +118,48 @@ export class AuthController {
     }
 
     return res.json({
+      data: '',
+      message: '',
+      error: false,
+    });
+  }
+
+  @Post('/reset')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(200)
+  async resetPassword(
+    @Headers('authorization') authorization: string,
+    @Body() body: ResetPassword,
+    @Res() res: Response,
+  ): Promise<Response<AppResponse>> {
+    const results = await this.authService.resetPassword(
+      authorization.split(' ')[1],
+      body.password,
+      body.passwordConfirm,
+    );
+
+    if (results.statusCode !== 200) {
+      return res.status(results.statusCode).json({
+        data: results.data,
+        message: results.message,
+        error: true,
+      });
+    }
+
+    res.json({
       data: results.data,
       message: results.message,
       error: false,
     });
   }
 
-  @Post('/reset/:token')
+  @Post('/logout')
   @HttpCode(200)
-  async resetPassword(
-    @Param('token') token: string,
-    @Body() body: ResetPassword,
+  async logout(
+    @Body() body: Token,
     @Res() res: Response,
   ): Promise<Response<AppResponse>> {
-    const results = await this.authService.resetPassword(
-      token,
-      body.password,
-      body.passwordConfirm,
-    );
+    const results = await this.authService.logout(body.token);
 
     if (results.statusCode !== 200) {
       return res.status(results.statusCode).json({

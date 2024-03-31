@@ -23,12 +23,12 @@ import { MailerModule } from '@nestjs-modules/mailer';
           port: 587,
           secure: false,
           auth: {
-            user: 'email',
-            pass: 'pass',
+            user: 'redyrevol2006@gmail.com',
+            pass: 'lkda pqgd iznx qapa ',
           },
         },
         defaults: {
-          from: 'email',
+          from: 'redyrevol2006@gmail.com',
         },
       }),
     }),

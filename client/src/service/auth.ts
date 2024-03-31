@@ -5,7 +5,7 @@ import api from "./api";
 
 const useAuth = () => {
     const router = useRouter();
-    const [authenticated, setAuthenticated] = useState<boolean>(false);
+    const [authenticated, setAuthenticated] = useState<any>(undefined);
 
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -36,7 +36,13 @@ const useAuth = () => {
         router.push("/logged");
     };
 
-    const logout = (): void => {
+    const logout = async (): Promise<void> => {
+        const token = localStorage.getItem("token");
+
+        await api.post("/auth/logout", {
+            token: token,
+        });
+
         localStorage.removeItem("token");
         setAuthenticated(false);
         router.push("/login");

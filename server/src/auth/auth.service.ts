@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from './../prisma/prisma.service';
-import { Payload, User } from './dto/auth.dto';
+import { Payload } from './dto/auth.dto';
+import { User } from 'src/user/dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ServiceResults } from 'src/app.dto';
@@ -21,7 +22,7 @@ export class AuthService {
   async login(payload: Payload): Promise<ServiceResults> {
     // Generate and save the token
     const token: string = this.jwtService.sign(payload);
-    const error: string = await this.saveToken(token, payload.email);
+    const error: string = await this.saveToken(token, payload.id);
 
     if (error) {
       return {
@@ -35,12 +36,12 @@ export class AuthService {
   }
 
   // Function saveToken, save the new created token in the database
-  async saveToken(token: string, email: string): Promise<string> {
+  async saveToken(token: string, userID: number): Promise<string> {
     // Try to insert the token
     try {
       await this.prisma.token.create({
         data: {
-          email: email,
+          userId: userID,
           token: token,
         },
       });
@@ -50,7 +51,7 @@ export class AuthService {
       try {
         await this.prisma.token.update({
           where: {
-            email: email,
+            userId: userID,
           },
           data: {
             token: token,
@@ -60,6 +61,24 @@ export class AuthService {
       } catch (err) {
         return 'error trying to save token';
       }
+    }
+  }
+
+  async logout(token: string): Promise<ServiceResults> {
+    try {
+      await this.prisma.token.delete({
+        where: {
+          token: token,
+        },
+      });
+
+      return {
+        data: null,
+        message: 'logout efetuado com sucesso',
+        statusCode: 200,
+      };
+    } catch {
+      return { data: null, message: 'token inválido', statusCode: 401 };
     }
   }
 
@@ -79,12 +98,10 @@ export class AuthService {
       try {
         user = await this.prisma.users.findUnique({
           where: {
-            email: token.email,
+            id: token.userId,
           },
           select: {
             id: true,
-            email: true,
-            name: true,
           },
         });
       } catch (err) {
@@ -151,14 +168,14 @@ export class AuthService {
 
     // Return the user payload, for the token, if validate is successfully
     return {
-      data: { id: user.id, email: user.email },
+      data: { id: user.id },
       message: 'User is is valid.',
       statusCode: 200,
     };
   }
 
   async recoverPassword(email: string): Promise<ServiceResults> {
-    const token = Math.random().toString(20).substring(2, 22);
+    const token: string = this.jwtService.sign({});
 
     try {
       await this.prisma.recoverPassword.create({
@@ -186,11 +203,12 @@ export class AuthService {
         };
       }
     }
-    const url = `http://localhost:5000/reset/${token}`;
+
+    const url = `http://localhost:3000/resetPassword/?token=${token}`;
     await this.mailerService.sendMail({
       to: email,
       subject: 'Resete sua senha!',
-      html: `<a href="${url}">Clique aqui</a> para resetar sua senha.`,
+      html: `<a href="${url}">Clique aqui</a> para resetar sua senha. Se não foi você, ignore este email.`,
     });
 
     return { data: null, message: 'Please check your email!', statusCode: 200 };
@@ -239,6 +257,6 @@ export class AuthService {
       },
     });
 
-    return { data: null, message: 'Password reseted', statusCode: 200 };
+    return { data: null, message: 'Password reset', statusCode: 200 };
   }
 }

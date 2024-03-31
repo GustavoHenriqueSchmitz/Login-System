@@ -1,6 +1,7 @@
 import api from '@/service/api';
 import { useState } from 'react';
 import CSS from './Password.module.css';
+import { toast } from 'react-toastify';
 
 function PasswordRecover(props: any) {
     const [recoverPasswordEmail, setRecoverPasswordEmail] = useState("");
@@ -10,11 +11,17 @@ function PasswordRecover(props: any) {
             <div className={CSS.PasswordRecover_containerTitle}>
                 <h1>Recuperar Senha</h1>
             </div>
-            <form onSubmit={(e) => {
+            <form onSubmit={async (e) => {
                 e.preventDefault()
-                api.post("/auth/recover", {
+                const results = await api.post("/auth/recover", {
                     email: recoverPasswordEmail,
                 })
+
+                if (results.status !== 200) {
+                    toast.error("Houve um erro ao enviar seu email, tente novamente ou mais tarde")
+                } else {
+                    toast.success("Email enviado!")
+                }
             }} className={CSS.PasswordRecover_containerForm}>
                 <div className={CSS.PasswordRecover_containerFormAlignInputs}>
                     <label className={CSS.PasswordRecover_containerFormLabel}>
