@@ -74,19 +74,25 @@ npm install
 
 ### 4 - Inicializar o Prisma (Banco de dados):
 
-**1.** Abra um terminal, e na pasta raiz **server** do projeto, execute: 
+**1.** Crie um arquivo **.env** na pasta raiz **server** do projeto e defina a URL do Banco de Dados, que provavelmente será algo como:
+```
+#Database
+DATABASE_URL="mysql://root:root@localhost:3306/Login?schema=public"
+```
+
+**2.** Abra um terminal, e na pasta raiz **server** do projeto, execute: 
 ```
 sudo docker-compose up
 ```
 
-**2.** Abra um terminal e navegue até a pasta **/src** dentro da pasta raiz server.
+**3.** Abra um terminal e navegue até a pasta **/src** dentro da pasta raiz server.
 
-**3.** Execute o comando:
+**4.** Execute o comando:
 ```
 npx prisma generate
 ```
 
-**4.** Faça deploy das migrações e crie o banco de dados 
+**5.** Faça deploy das migrações e crie o banco de dados 
 ```
 npx prisma migrate deploy
 ```
@@ -98,7 +104,15 @@ npx prisma migrate deploy
 sudo docker-compose up
 ```
 
-**2.** Logo em seguida abra outro terminal, e ainda na pasta raiz **server** do projeto. Execute um dos comandos </br>a seguir de acordo com o modo desejado:
+**2.** No arquivo .env da pasta raiz **server** (se não tiver criado ao inicializar o banco de dados, crie) adicione sua secret key:
+```
+#Token JWT
+JWT_SECRET="secret_key_here"
+```
+
+**3.** Após isso acesse o arquivo em **/server/src/auth/auth.module.ts** e configure o email da aplicação para envio de emails:
+
+**4.** Logo em seguida abra outro terminal, na pasta raiz **server** do projeto. Execute um dos comandos </br>a seguir de acordo com o modo desejado:
 
 ```
 # development mode
@@ -114,6 +128,10 @@ npm run start:prod
 ## Executando o cliente da aplicação:
 
 **1.** Abra um terminal, e na pasta raiz **client** do projeto. Execute um dos comandos </br>a seguir de acordo com o modo desejado:
+
+```
+nvm use 20.11.1
+```
 
 ```
 # development mode
