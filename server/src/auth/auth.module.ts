@@ -7,6 +7,8 @@ import { LocalStrategy } from './strategies/local_strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { PrismaModule } from './../prisma/prisma.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Module({
   imports: [
@@ -23,12 +25,12 @@ import { MailerModule } from '@nestjs-modules/mailer';
           port: 587,
           secure: false,
           auth: {
-            user: 'email', // Put here and email, to allow the application send email. Recommend a gmail email.
-            pass: 'pass', // Access your gmail account, and generate an app password to put here.
+            user: 'redyrevol2006@gmail.com', // Put here and email, to allow the application send email. Recommend a gmail email.
+            pass: 'awel valr mfmf zkrr ', // Access your gmail account, and generate an app password to put here.
           },
         },
         defaults: {
-          from: 'email', // Put here and email, to allow the application send email. Recommend a gmail email.
+          from: 'redyrevol2006@gmail.com', // Put here and email, to allow the application send email. Recommend a gmail email.
         },
       }),
     }),

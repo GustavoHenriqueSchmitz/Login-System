@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Payload } from '../dto/auth.dto';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 // JWT strategy
 @Injectable()
