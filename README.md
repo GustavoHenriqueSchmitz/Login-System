@@ -60,13 +60,13 @@ https://www.docker.com
 
 ### 3 - Instalar depêndencias:
 
-**1.** Navegue até a pasta raiz client do projeto, e execute:
+**1.** Navegue até a pasta raiz **client** do projeto, e execute:
 
 ```
 npm install
 ```
 
-**2.** Navegue até a pasta raiz server do projeto, e execute:
+**2.** Navegue até a pasta raiz **server** do projeto, e execute:
 
 ```
 npm install
@@ -74,12 +74,12 @@ npm install
 
 ### 4 - Inicializar o Prisma (Banco de dados):
 
-**1.** Abra um terminal, e na pasta raiz server do projeto, execute: 
+**1.** Abra um terminal, e na pasta raiz **server** do projeto, execute: 
 ```
 sudo docker-compose up
 ```
 
-**2.** Abra um terminal e navegue até a pasta /src dentro da pasta raiz server.
+**2.** Abra um terminal e navegue até a pasta **/src** dentro da pasta raiz server.
 
 **3.** Execute o comando:
 ```
@@ -93,12 +93,12 @@ npx prisma migrate deploy
 
 ## Executando o servidor da aplicação:
 
-**1.** Abra um terminal, e na pasta raiz server do projeto, execute (se já não tiver executado ao inicializar o prisma): 
+**1.** Abra um terminal, e na pasta raiz **server** do projeto, execute (se já não tiver executado ao inicializar o prisma): 
 ```
 sudo docker-compose up
 ```
 
-**2.** Logo em seguida abra outro terminal, e ainda na pasta raiz server do projeto. Execute um dos comandos </br>a seguir de acordo com o modo desejado:
+**2.** Logo em seguida abra outro terminal, e ainda na pasta raiz **server** do projeto. Execute um dos comandos </br>a seguir de acordo com o modo desejado:
 
 ```
 # development mode
@@ -113,7 +113,7 @@ npm run start:prod
 
 ## Executando o cliente da aplicação:
 
-**1.** Abra um terminal, e na pasta raiz client do projeto. Execute um dos comandos </br>a seguir de acordo com o modo desejado:
+**1.** Abra um terminal, e na pasta raiz **client** do projeto. Execute um dos comandos </br>a seguir de acordo com o modo desejado:
 
 ```
 # development mode
