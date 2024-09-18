@@ -13,7 +13,7 @@
     "@iconify/icons-ic": "^1.2.13",
     "@iconify/react": "^4.1.1",
     "axios": "^1.6.8",
-    "next": "14.1.4",
+    "next": "14.2.10",
     "react": "^18",
     "react-dom": "^18",
     "react-toastify": "^10.0.5"
