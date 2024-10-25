@@ -1,32 +1,42 @@
 # Login System
 
-Aplicação desenvolvida usando: [NodeJS](https://nodejs.org), [TypeScript](https://www.typescriptlang.org), [NestJS](https://github.com/nestjs/nest), [Prisma](https://www.prisma.io), [NextJS](https://nextjs.org/).
+## About the project
+A login system, including all the security logic behind it and other functionalities, as well as to create and implement such a system. It includes features like token generation and refresh, user registration, password reset, and recovery.
 
-## Clone do projeto
+## Used technologies
+- [NodeJS](https://nodejs.org)
+- [TypeScript](https://www.typescriptlang.org)
+- [NestJS](https://github.com/nestjs/nest)
+- [Prisma](https://www.prisma.io)
+- [NextJS](https://nextjs.org/).
+
+## Installation
+It's important to note that the commands described here are specified for the Linux operating system. However, the concept is the same.
+
+### Project clone
 
 ```
 git clone https://github.com/GustavoHenriqueSchmitz/LoginSystem.git
 ```
-## Instalação
 
-### 1 - Instale NodeJS V20.11.1
+### Install NodeJS V20.11.1
 
-**1.** Primeiro verifique se você já tem o node instalado executando os seguintes comandos:
+**1.** First, check if you already have Node installed by running the following commands:
 
 ```
 node -v
 npm -v
 ```
 
-Se o resultado for algo como:
+If the result is something like:
 ```
 v20.11.1
 v10.2.4
 ```
 
-Você pode pular esta etapa de instalação.
+You can skip this installation step.
 
-**2.** Abra um terminal e execute os comandos seguintes:
+**2.** Open a terminal and run the following commands:
 ```
 sudo apt-get install curl
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
@@ -37,82 +47,82 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 ```
 
-**4.** Feche o terminal atual e abra um novo, e prossiga executando o comando seguinte:
+**4.** Close the current terminal and open a new one, then proceed by running the following command:
 ```
 nvm install v20.11.1
 ```
-### 2 - Instale docker-compose:
+### Install docker-compose:
 
-**1.** Primeiro verifique se você já tem o docker instalado, execute:
+**1.** First, check if you already have Docker installed by running:
 ```
 docker-compose -v
 ```
-Se a versão for retornada com sucesso, pode pular esta etapa.
+If the version is returned successfully, you can skip this step.
 
-**2.** Execute os seguintes comandos:
+**2.** Run the following commands:
 ```
 sudo apt-get update            
 sudo apt install docker-compose
 ```
 
-**2. (Alternativa)** Instale docker diretamente pelo seu site:
+**2. (Alternative)** Install Docker directly from its website:
 https://www.docker.com
 
-### 3 - Instalar depêndencias:
+### Install dependencies:
 
-**1.** Navegue até a pasta raiz **client** do projeto, e execute:
-
-```
-npm install
-```
-
-**2.** Navegue até a pasta raiz **server** do projeto, e execute:
+**1.** Navigate to the project's client root folder and run:
 
 ```
 npm install
 ```
 
-### 4 - Inicializar o Prisma (Banco de dados):
+**2.** Navigate to the project's server root folder and run:
 
-**1.** Crie um arquivo **.env** na pasta raiz **server** do projeto e defina a URL do Banco de Dados, que provavelmente será algo como:
+```
+npm install
+```
+
+### 4 - Initialize Prisma (Database):
+
+**1.** Create a .env file in the project's server root folder and set the Database URL, which will likely be something like:
 ```
 #Database
 DATABASE_URL="mysql://root:root@localhost:3306/Login?schema=public"
 ```
 
-**2.** Abra um terminal, e na pasta raiz **server** do projeto, execute: 
+**2.** Open a terminal, and in the project's server root folder, run:
 ```
 sudo docker-compose up
 ```
 
-**3.** Abra um terminal e navegue até a pasta **/src** dentro da pasta raiz server.
+**3.** Open a terminal and navigate to the /src folder inside the server root folder.
 
-**4.** Execute o comando:
+**4.** Run the command:
 ```
 npx prisma generate
 ```
 
-**5.** Faça deploy das migrações e crie o banco de dados 
+**5.** Deploy the migrations and create the database:
 ```
 npx prisma migrate deploy
 ```
 
-## Executando o servidor da aplicação:
+## Running the application server:
 
-**1.** Abra um terminal, e na pasta raiz **server** do projeto, execute (se já não tiver executado ao inicializar o prisma): 
+**1.** Open a terminal, and in the project's server root folder, run (if you haven't already done so when initializing Prisma):
 ```
 sudo docker-compose up
 ```
 
-**2.** No arquivo .env da pasta raiz **server** (se não tiver criado ao inicializar o banco de dados, crie) adicione sua secret key:
+**2.** In the server root folder’s .env file (if you haven’t created it when initializing the database, create it now), add your secret key:
 ```
 #Token JWT
 JWT_SECRET="secret_key_here"
 ```
 
-**3.** Após isso acesse o arquivo em **/server/src/auth/auth.module.ts** e configure o email da aplicação para envio de emails:
+**3.** After that, access the file at /server/src/auth/auth.module.ts and configure the application's email for sending emails:
 
-**4.** Logo em seguida abra outro terminal, na pasta raiz **server** do projeto. Execute um dos comandos </br>a seguir de acordo com o modo desejado:
+**4.** Right after, open another terminal in the project's server root folder. Run one of the following commands according to the desired mode:
 
 ```
 # development mode
@@ -125,9 +135,9 @@ npm run start:dev
 npm run start:prod
 ```
 
-## Executando o cliente da aplicação:
+## Running the application client:
 
-**1.** Abra um terminal, e na pasta raiz **client** do projeto. Execute um dos comandos </br>a seguir de acordo com o modo desejado:
+**1.** Open a terminal in the project's client root folder. Run one of the following commands according to the desired mode:
 
 ```
 nvm use 20.11.1
@@ -141,3 +151,10 @@ npm run dev
 npm run build
 npm run start
 ``` 
+
+## Author
+**Gustavo Henrique Schmitz**
+
+**Linkedin:** https://www.linkedin.com/in/gustavo-henrique-schmitz  
+**Portfolio:** https://gustavohenriqueschmitz.com  
+**Email:** gustavohenriqueschmitz568@gmail.com  
