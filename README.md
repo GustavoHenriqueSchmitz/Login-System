@@ -8,7 +8,7 @@ A login system, including all the security logic behind it and other functionali
 - [TypeScript](https://www.typescriptlang.org)
 - [NestJS](https://github.com/nestjs/nest)
 - [Prisma](https://www.prisma.io)
-- [NextJS](https://nextjs.org/).
+- [NextJS](https://nextjs.org/)
 
 ## Installation
 It's important to note that the commands described here are specified for the Linux operating system. However, the concept is the same.
