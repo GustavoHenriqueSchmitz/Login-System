@@ -4,7 +4,7 @@
 A login system, including all the security logic behind it and other functionalities, as well as to create and implement such a system. It includes features like token generation and refresh, user registration, password reset, and recovery.
 
 ## Project demonstration video
-[![Login System Demo](https://img.youtube.com/vi/4Vgo7YCe_Ak/0.jpg)](https://www.youtube.com/watch?v=4Vgo7YCe_Ak)
+[![Login System Demo](https://img.youtube.com/vi/grnNSNoWz-4/0.jpg)](https://www.youtube.com/watch?v=grnNSNoWz-4)
 
 ## Used technologies
 - [NodeJS](https://nodejs.org)
